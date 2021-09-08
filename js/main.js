@@ -1,116 +1,156 @@
-var app = new Vue({
-  el:   '#app',
-  data: {
-    player_start:   null,
-    player_turn:    null, // 1 = X : 0 = O
-    player_o_wins:  0,
-    player_x_wins:  0,
-    games_played:   0,
-    board_map:      {},
-    board_length:   null
-  },
-  methods: {
-    playerStart: function ( player_start ) {
-      this.player_start = player_start;
-      this.player_turn  = player_start;
-    },
-    playerSignature: function ( key ) {
-      this.board_map[ key ] = this.player_turn;
-      this.gameWinPlayer();
-      this.playerTurnToggle();
-    },
-    playerTurnToggle: function () {
-      if ( null !== this.player_turn ) this.player_turn = this.player_turn ? 0 : 1;
-    },
-    boardSetSize: function ( value ) {
-      this.board_length = Number(value) * Number(value);
-      this.boardMapCreator();
-    },
-    boardMapCreator: function () {
-      for ( var i=0; i < this.board_length; i++ ) {
-        this.board_map[i] = null;
-      }
-    },
-    boardMapFlush: function () {
-      for ( const key in this.board_map ) {
-        this.board_map[ key ] = null;
-      }
-    },
-    boardTileSignature: function ( key ) {
-      if ( null !== this.board_map[ key ] ) return this.board_map[ key ] ? 'x disabled' : 'o disabled';
-    },
-    gameWinPlayer: function () {
-      const col_modulo_var  = Math.sqrt( this.board_length );
-      let tally             = 0;
+Vue.component('account-record-input', {
+  template: `
+    <div id="ledger-input">
+      <h2>Accounts Recievable Form</h2>
+      <select class="act-type">
+        <option>Deduction</option>
+        <option>Addition</option>
+      </select>
+      <input type="text" class="amount" name="amount" placeholder="Amount" />
+      <input type="text" class="company" name="Company" placeholder="Company" />
+      <input type="text" class="invoice" name="invoice-number" placeholder="Invoice #" />
+      <input type="text" class="datepicker" placeholder="Select a Date" />
+      <button id="ledger-add-button">ADD</button>
+    </div>
+    `
+});
 
-      // Rows
-      for ( const key in this.board_map ) {
-        tally += null !== this.board_map[ key ] ? this.board_map[ key ] : 'NaN'; // null values trigger false positive
+Vue.component('account-record-display', {
+  template: `
+    <tr class="deduction">
+      <td class="icon"><div></div></td>
+      <td class="name">
+        <p class="bill">Apple iPhone 6, 6g GB<p>
+        <p class="invoice-date">Electronics #343223  - 12 July, 2015</p>
+      </td>
+      <td class="amount">$650.<sup>00</sup><span class="remove-data">Remove</span></td>
+    </tr>
+  `
+});
+// <!--    <tr class="addition">-->
+// <!--      <td class="icon"><div></div></td>-->
+// <!--      <td class="name">-->
+//   <!--        <p class="bill">Apple iPhone 6, 6g GB<p>-->
+//   <!--        <p class="invoice-date">Electronics #343223  - 12 July, 2015</p>-->
+//   <!--      </td>-->
+//   <!--      <td class="amount">$650.<sup>75</sup><span class="remove-data">Remove</span></td>-->
+//   <!--    </tr>-->
 
-        if ( ( col_modulo_var - 1 ) === ( key % col_modulo_var ) && Number(key) > 1 ) {
-          if ( 0 === tally  || col_modulo_var === tally ) this.gameWinProcess( tally );
-          else tally = 0;
-        }
-      }
+Vue.component('account-header', {
+  template: `
+    <h2>Current Balance
+      <span>$729.<sup>00</sup></span>
+    </h2>
+  `
+});
 
-      // Columns
-      let col_win_map = {};
-
-      for ( var i=0; i < col_modulo_var; i++ ) {
-        if ( undefined === col_win_map[ i ] )  col_win_map[ i ] = 0;
-        for ( const key in this.board_map ) {
-          if ( ( i === key % col_modulo_var ) || i === key ) {
-            col_win_map[ i ] += null !== this.board_map[key] ? this.board_map[key] : 'NaN';
-          }
-        }
-      }
-
-      // Check map for success
-      for ( const key in col_win_map ) {
-        tally = col_win_map[ key ];
-        if ( 0 === tally  || col_modulo_var === tally ) this.gameWinProcess( tally );
-      }
-      tally = 0;
-
-      // Diagonals
-      let diag_win_map = {
-        main:         0,
-        counter:      0,
-        main_keys:    [],
-        counter_keys: []
-      };
-
-      for ( var i=0; i < col_modulo_var; i++ ) {
-        let key = ( col_modulo_var + 1 ) * i;
-        if ( key > this.board_length ) break;
-
-        diag_win_map.main_keys.push( key );
-        diag_win_map.counter_keys.push( ( ( i + 1 ) * ( col_modulo_var - 1 ) ) );
-      }
-
-      diag_win_map.main_keys.forEach(
-        key => diag_win_map.main += null !== this.board_map[ key ] ? this.board_map[ key ] : 'NaN'
-      );
-      diag_win_map.counter_keys.forEach(
-        key => diag_win_map.counter += null !== this.board_map[ key ] ? this.board_map[ key ] : 'NaN'
-      );
-
-      tally = diag_win_map.main;
-      if ( 0 === tally  || col_modulo_var === tally ) this.gameWinProcess( tally );
-      else tally = 0;
-
-      tally = diag_win_map.counter;
-      if ( 0 === tally  || col_modulo_var === tally ) this.gameWinProcess( tally );
-      else tally = 0;
-    },
-    gameWinProcess: function ( player ) {
-      this.board_length = null;
-      this.playerStart(null );
-      this.games_played++;
-      this.boardMapFlush();
-
-      if ( player ) this.player_x_wins++;
-      else this.player_o_wins++;
+Vue.component('stylesheets', {
+  data: function() {
+    return {
+      parsed_sheets: this.sheets.split(',').map(value => value+'.css')
     }
-  }
+  },
+  props: {
+    sheets: String
+  },
+  template: `
+    <div style="display: none">
+      <link v-for="sheet in parsed_sheets" rel="stylesheet" :href="sheet">
+    </div>
+  `
+});
+
+Vue.component('js-scripts', {
+  data: function() {
+    return {
+      parsed_sheets: this.sheets.split(',').map(value => value+'.js')
+    }
+  },
+  props: {
+    sheets: String
+  },
+  template: `
+    <div style="display: none">
+      <script v-for="sheet in parsed_sheets" :src="sheet"></script>
+    </div>
+  `
+});
+
+Vue.component('wallet', {
+  template: `
+    <div class="wallet">
+      <h2>My Wallets<span id="add-credit-card">+</span></h2>
+      <!--ADD CREDIT CARD FORM -->
+      <div id="add-cc-form" class="hidden">
+        <div id="cc-type" class="nothing"></div>
+        <input id="cc-number-input" type="text" placeholder="Credit Card #" maxlength="19" />
+        <select class="cc-exp-month">
+          <option value="01">JAN</option>
+          <option value="02">FEB</option>
+          <option value="03">MAR</option>
+          <option value="04">APR</option>
+          <option value="05">MAY</option>
+          <option value="06">JUN</option>
+          <option value="07">JUL</option>
+          <option value="08">AUG</option>
+          <option value="09">SEPT</option>
+          <option value="10">OCT</option>
+          <option value="11">NOV</option>
+          <option value="12">DEC</option>
+        </select>
+        <select class="cc-exp-year">
+          <option value="17">2017</option>
+          <option value="18">2018</option>
+          <option value="19">2019</option>
+          <option value="20">2020</option>
+          <option value="21">2021</option>
+          <option value="22">2022</option>
+        </select>
+        <button id="cc-add-button">ADD</button>
+      </div>
+
+      <div class="scrollme">
+        <div class="credit-card"><div id="cc-card-logo" class="visa"></div>
+          <p class="cc-num"><sub>**** **** ****</sub> 2562</p>
+          <p class="cc-exp">Valid Thru: 12/17</p>
+          <span class="remove-data">Remove</span>
+        </div>
+        <div class="credit-card selected"><div id="cc-card-logo" class="mc"></div>
+          <p class="cc-num"><sub>**** **** ****</sub> 2562</p>
+          <p class="cc-exp">Valid Thru: 12/17</p>
+          <span class="remove-data">Remove</span>
+        </div>
+        <div class="credit-card"><div id="cc-card-logo" class="visa"></div>
+          <p class="cc-num"><sub>**** **** ****</sub> 2562</p>
+          <p class="cc-exp">Valid Thru: 12/17</p>
+          <span class="remove-data">Remove</span>
+        </div>
+        <div class="credit-card"><div id="cc-card-logo" class="amex"></div>
+          <p class="cc-num"><sub>**** **** ****</sub> 2562</p>
+          <p class="cc-exp">Valid Thru: 12/17</p>
+          <span class="remove-data">Remove</span>
+        </div>
+      </div>
+    </div>
+  `
+});
+
+Vue.component('app-modal', {
+  template: `
+    <div id="modal">
+      <div id="modal_content">
+        <h1>What's going on with this build?<h1>
+          <h2>1. Using local browser storage to persist data.</h2>
+          <h2>2. You leave/close/reload this page your data is still here.</h2>
+          <h2>3. Luhn formula for credit card validation</h2>
+          <h2>4. Custom calendar date picker system</h2>
+          <h2>5. Automatic ledger logic for instance balance calculation</h2>
+
+          <h1>VueJS<h1>
+          <a href="#" title="Close">✖</a>
+      </div>
+    </div>
+  `
 })
+
+var app = new Vue({ el: '#app' })

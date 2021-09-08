@@ -1,0 +1,98 @@
+#balance-checker .wallet {
+  background-color: #f2f2f2;
+  width: 250px;
+  float: left;
+  height: 100%;
+  padding: 55px;
+}
+#balance-checker .wallet .scrollme {
+  overflow-y: scroll;
+  height: 510px;
+  width: 275px;
+}
+#balance-checker .wallet .scrollme.enabled {
+  height: 340px;
+}
+#balance-checker .wallet h2 {
+  font-size: 24px;
+  font-family: "Open Sans";
+  color: #707584;
+  text-align: left;
+  margin-bottom: 60px;
+}
+#balance-checker .wallet .credit-card {
+  height: 150px;
+  width: 250px;
+  background-color: #FFF;
+  padding: 15px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  margin-bottom: 30px;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+  border: 2px solid #e1e1e1;
+}
+#balance-checker .wallet .credit-card.selected {
+  border: 4px solid #8393CA;
+}
+#balance-checker .wallet .credit-card p {
+  font-family: "Open Sans";
+  display: block;
+  margin-bottom: 10px;
+}
+#balance-checker .wallet .credit-card p.cc-num {
+  font-size: 17px;
+  font-family: "Open Sans";
+  color: #666;
+  letter-spacing: 2px;
+}
+#balance-checker .wallet .credit-card p.cc-exp {
+  font-size: 17px;
+  font-family: "Open Sans";
+  color: #b2b2b2;
+}
+#balance-checker .wallet .credit-card #cc-card-logo {
+  width: 64px;
+  height: 44px;
+  background: url("http://oi66.tinypic.com/11iobps.jpg") no-repeat;
+  margin-bottom: 20px;
+}
+#balance-checker .wallet .credit-card #cc-card-logo.visa {
+  background-position: -69px -4px;
+}
+#balance-checker .wallet .credit-card #cc-card-logo.mc {
+  background-position: -209px -4px;
+}
+#balance-checker .wallet .credit-card #cc-card-logo.amex {
+  background-position: -140px -4px;
+}
+#balance-checker .wallet .credit-card sub {
+  vertical-align: sub;
+}
+#balance-checker .wallet .credit-card .remove-data {
+  font-family: "Open Sans";
+  text-transform: uppercase;
+  font-size: 13px;
+  color: #AA0000;
+  float: right;
+  margin-top: -23px;
+  opacity: 0;
+  transition-duration: 300ms;
+  cursor: pointer;
+}
+#balance-checker .wallet .credit-card:hover .remove-data {
+  opacity: 1;
+}
+
+@media screen and (max-width: 890px) {
+  #balance-checker .wallet {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  #balance-checker .wallet .scrollme {
+    width: 260px;
+  }
+  #balance-checker .wallet .credit-card p.cc-num,
+  #balance-checker .wallet .credit-card p.cc-exp {
+    font-size: 16px;
+  }
+}
