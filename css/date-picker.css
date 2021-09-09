@@ -1,0 +1,81 @@
+.vanilla-datepicker {
+  background:       #272727;
+  border:           solid 1px #b2b2b2;
+  border-radius:    4px;
+  color:            #DDDDDD;
+  position:         absolute;
+  width:            200px;
+}
+.vanilla-datepicker > .title-nav {
+  border:           solid 1px #b2b2b2;
+  display:          flex;
+  font-weight:      bold;
+  align-items:      center;
+  background:       #222;
+  border-radius:    4px;
+  flex-direction:   row;
+  justify-content:  space-between;
+  margin:           2px;
+  width:            auto;
+}
+.vanilla-datepicker > .title-nav > .month-navigate,
+.vanilla-datepicker > .title-nav > .year-navigate {
+  border:           solid 1px #b2b2b2;
+  display:          flex;
+  font-weight:      bold;
+  align-items:      center;
+  border-radius:    4px;
+  cursor:           pointer;
+  flex:             0 15px;
+  height:           15px;
+  justify-content:  center;
+  margin:           1px;
+  padding:          2px;
+  text-align:       center;
+}
+.vanilla-datepicker > .title-nav > .month-navigate:first-child,
+.vanilla-datepicker > .title-nav > .year-navigate:first-child {
+  align-self:       flex-start;
+}
+.vanilla-datepicker > .title-nav > .month-navigate:hover,
+.vanilla-datepicker > .title-nav > .year-navigate:hover {
+  border:           solid 1px #b2b2b2;
+}
+.vanilla-datepicker > .week-header {
+  font-weight:      bold;
+}
+.vanilla-datepicker > .week-header,
+.vanilla-datepicker > .week {
+  display:          flex;
+  flex-direction:   row;
+  justify-content:  space-between;
+}
+.vanilla-datepicker > .week-header > div {
+  align-items:      flex-start;
+  display:          flex;
+  flex:             1;
+  justify-content:  center;
+}
+.vanilla-datepicker > .week > div {
+  border:           solid 1px #b2b2b2;
+  display:          flex;
+  font-weight:      bold;
+  align-items:      flex-end;
+  cursor:           pointer;
+  flex:             1;
+  justify-content:  flex-end;
+  margin:           1px;
+  padding:          2px;
+}
+.vanilla-datepicker > .week > div.no-select {
+  cursor:           auto;
+  background:       #b2b2b2;
+  color:            #666;
+}
+.vanilla-datepicker > .week > div.selected {
+  background-color: #415E82;
+  font-weight:      700;
+}
+.vanilla-datepicker > .week > div:not(.no-select):hover {
+  background:       #666;
+}

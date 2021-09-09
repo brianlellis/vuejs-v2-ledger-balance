@@ -1,252 +1,31 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:600,800");
-/********************/
-/*******************/
-/*******************/
+
 body {
-  background-color: #ffcc66;
-  padding: 50px 0;
+  scrollbar-base-color:         #b2b2b2;
+  scrollbar-base-color:         #b2b2b2;
+  scrollbar-3dlight-color:      #b2b2b2;
+  scrollbar-highlight-color:    #b2b2b2;
+  scrollbar-track-color:        #b2b2b2;
+  scrollbar-arrow-color:        #000000;
+  scrollbar-shadow-color:       #b2b2b2;
+  scrollbar-dark-shadow-color:  #b2b2b2;
+  background-color:             #ffcc66;
+  padding:                      2vh 0;
+  font-family:                  "Open Sans";
+  font-size:                    12px;
 }
-
-input[type=text], select {
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #b2b2b2;
-  border-radius: 4px;
-  box-sizing: border-box;
+input, select {
+  padding:          1vh 1vw;
+  margin:           1vh 0;
+  display:          inline-block;
+  border:           1px solid #b2b2b2;
+  border-radius:    4px;
+  height:           4vh;
+  line-height:      4vh;
 }
-
-/****************************/
-/***************************/
-#ledger-input {
-  background-color: #48a0dc;
-  margin: auto;
-  margin-bottom: 30px;
-  padding: 10px;
-  border-radius: 4px;
-  width: 880px;
-  box-sizing: border-box;
+h2 {
+  font-size:        20px;
 }
-#ledger-input h2 {
-  font-size: 24px;
-  font-family: "Open Sans";
-  color: #FFF;
-}
-#ledger-input input[type=text], #ledger-input select {
-  width: 19.6%;
-}
-#ledger-input select {
-  width: auto;
-}
-#ledger-input input.datepicker {
-  width: 15%;
-}
-#ledger-input button {
-  width: 8.5%;
-  margin-left: 0.5%;
-  border-radius: 4px;
-  height: 42px;
-  background-color: #22608a;
-  color: #FFF;
-  font-size: 13px;
-  font-weight: 700;
-  line-height: 40px;
-  border: none;
-}
-
-/**********************/
-/*********************/
-#balance-checker {
-  border-radius: 4px;
-  background-color: #FFF;
-  box-shadow: 0px 0px 15px 10px rgba(255, 170, 35, 0.4);
-  width: 880px;
-  height: 700px;
-  overflow: hidden;
-  margin: auto;
-}
-#balance-checker #add-credit-card {
-  float: right;
-  font-size: 48px;
-  margin-top: -12px;
-  color: #c6cce2;
-  cursor: pointer;
-  transition-duration: 500ms;
-}
-#balance-checker #add-credit-card.enabled {
-  transform: rotate(135deg);
-}
-#balance-checker #add-cc-form {
-  box-sizing: border-box;
-  background: #333333;
-  text-align: center;
-  margin-bottom: 20px;
-  margin-top: -40px;
-  overflow: hidden;
-  transition: height 500ms;
-  height: 220px;
-}
-#balance-checker #add-cc-form.hidden {
-  height: 0;
-}
-#balance-checker #add-cc-form input {
-  margin-bottom: 2px;
-}
-#balance-checker #add-cc-form button {
-  margin-top: 8px;
-  width: 85%;
-  border-radius: 4px;
-  height: 42px;
-  background-color: #22608a;
-  color: #FFF;
-  font-size: 13px;
-  font-weight: 700;
-  line-height: 40px;
-  border: none;
-}
-#balance-checker #add-cc-form #cc-type {
-  background: url("http://www.ozanimalhospital.com/images/Credit-Card-Logos.png") no-repeat;
-  background-size: 200px;
-  height: 30px;
-  width: 50px;
-  margin: 10px 0 10px 20px;
-}
-#balance-checker #add-cc-form #cc-type.nothing {
-  background: none;
-}
-#balance-checker #add-cc-form #cc-type.visa {
-  background-position: 0px 0px;
-}
-#balance-checker #add-cc-form #cc-type.mc {
-  background-position: -50px 0px;
-}
-#balance-checker #add-cc-form #cc-type.discover {
-  background-position: -148px 0px;
-}
-#balance-checker #add-cc-form #cc-type.amex {
-  background-position: -99px 0px;
-}
-#balance-checker #add-cc-form select {
-  width: 104px;
-}
-
-#balance-checker .ledger {
-  padding: 55px;
-  padding-bottom: 0;
-  display: inline-block;
-  width: 520px;
-  box-sizing: border-box;
-}
-#balance-checker .ledger .scrollme {
-  overflow-y: scroll;
-  height: 530px;
-  width: 420px;
-  padding-right: 10px;
-}
-#balance-checker .ledger h2 {
-  font-size: 24px;
-  font-family: "Open Sans";
-  color: #707584;
-  line-height: 45px;
-  width: 100%;
-  padding-bottom: 45px;
-  border-bottom: 1px solid #b2b2b2;
-}
-#balance-checker .ledger h2 span {
-  font-size: 36px;
-  font-family: "Open Sans";
-  color: #444751;
-  font-weight: bold;
-  float: right;
-  line-height: 23px;
-}
-#balance-checker .ledger h2 span sup {
-  font-size: 17px;
-  vertical-align: super;
-}
-#balance-checker .ledger h2 span.negative-amt span {
-  color: #AA0000;
-}
-#balance-checker .ledger .transactions {
-  margin-top: 40px;
-  width: 100%;
-}
-#balance-checker .ledger .transactions tr {
-  border-bottom: 45px solid transparent;
-}
-#balance-checker .ledger .transactions .icon div {
-  margin-bottom: -15px;
-}
-#balance-checker .ledger .transactions .deduction .icon div {
-  background: url("http://oi66.tinypic.com/11iobps.jpg") no-repeat -34px -5px;
-  width: 20px;
-  height: 20px;
-}
-#balance-checker .ledger .transactions .addition .icon div {
-  background: url("http://oi66.tinypic.com/11iobps.jpg") no-repeat -4px -5px;
-  width: 20px;
-  height: 20px;
-}
-#balance-checker .ledger .transactions .name {
-  width: 75%;
-}
-#balance-checker .ledger .transactions .name .bill {
-  font-size: 17px;
-  font-family: "Open Sans";
-  color: #333333;
-  margin-bottom: 10px;
-  font-weight: 600;
-}
-#balance-checker .ledger .transactions .name .invoice-date {
-  font-size: 13px;
-  font-family: "Open Sans";
-  color: #999999;
-}
-#balance-checker .ledger .transactions .amount {
-  width: 15%;
-  text-align: right;
-  font-size: 17px;
-  font-family: "Open Sans";
-  font-weight: 600;
-}
-#balance-checker .ledger .transactions .amount sup {
-  vertical-align: super;
-  font-size: 13px;
-}
-#balance-checker .ledger .transactions .amount .remove-data {
-  font-family: "Open Sans";
-  text-transform: uppercase;
-  font-size: 13px;
-  color: #AA0000;
-  float: right;
-  margin-top: 12px;
-  opacity: 0;
-  transition-duration: 300ms;
-  cursor: pointer;
-}
-#balance-checker .ledger .transactions .amount:hover .remove-data {
-  opacity: 1;
-}
-#balance-checker .ledger .transactions .deduction .amount {
-  color: #8393ca;
-}
-#balance-checker .ledger .transactions .addition .amount {
-  color: #66cc33;
-}
-
-/********************/
-/*******************/
-body {
-  scrollbar-base-color: #b2b2b2;
-  scrollbar-base-color: #b2b2b2;
-  scrollbar-3dlight-color: #b2b2b2;
-  scrollbar-highlight-color: #b2b2b2;
-  scrollbar-track-color: #b2b2b2;
-  scrollbar-arrow-color: black;
-  scrollbar-shadow-color: #b2b2b2;
-  scrollbar-dark-shadow-color: #b2b2b2;
-}
-
 @-moz-document url-prefix(http://),url-prefix(https://) {
   scrollbar,
   thumb,
@@ -254,214 +33,84 @@ body {
   thumb:hover, scrollbarbutton:hover {
     -moz-appearance: none !important;
   }
-
-  scrollbar {
-    background: lime !important;
-  }
-
   thumb,
-  scrollbarbutton {
-    background-color: blue !important;
-  }
-
+  scrollbarbutton,
+  scrollbar,
   thumb:hover,
   scrollbarbutton:hover {
-    background-color: red !important;
+    background:     #b2b2b2 !important;
   }
-
   scrollbarbutton {
-    display: none !important;
+    display:        none !important;
   }
-
   scrollbar[orient=vertical] {
-    min-width: 10px !important;
+    min-width:      10px !important;
   }
 }
 .scrollbar-container {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: 10px;
-  border: 2px solid rgba(0, 0, 0, 0.2);
-  overflow: auto;
+  position:         absolute;
+  top:              0;
+  bottom:           0;
+  left:             0;
+  right:            0;
+  margin:           10px;
+  border:           2px solid rgba(0, 0, 0, 0.2);
+  overflow:         auto;
   background-color: whiteSmoke;
 }
 .scrollbar-container .inner {
-  height: 2011px;
-  width: 1985px;
-  padding: 0.5em;
+  height:           100vh;
+  width:            100vw;
+  padding:          0.5em;
   background-color: #FFF;
-  font-family: "Open Sans";
 }
-
 ::-webkit-scrollbar {
-  background: transparent;
-  width: 5px;
+  background:       transparent;
+  width:            5px;
 }
-
 ::-webkit-scrollbar-thumb,
 ::-webkit-scrollbar-thumb:hover {
   background-color: rgba(0, 0, 0, 0.2);
 }
-
 ::-webkit-scrollbar-thumb {
-  border: solid whiteSmoke 5px;
-}
-
-/********************/
-/*******************/
-.vanilla-datepicker {
-  background: #272727;
-  border: solid 1px #b2b2b2;
-  border-radius: 4px;
-  color: #DDDDDD;
-  font-size: 13px;
-  position: absolute;
-  width: 200px;
-}
-.vanilla-datepicker > .title-nav {
-  border: solid 1px #b2b2b2;
-  display: flex;
-  font-weight: bold;
-  align-items: center;
-  background: #222;
-  border-radius: 4px;
-  flex-direction: row;
-  justify-content: space-between;
-  margin: 2px;
-  width: auto;
-}
-.vanilla-datepicker > .title-nav > .month-navigate,
-.vanilla-datepicker > .title-nav > .year-navigate {
-  border: solid 1px #b2b2b2;
-  display: flex;
-  font-weight: bold;
-  align-items: center;
-  border-radius: 4px;
-  cursor: pointer;
-  flex: 0 15px;
-  height: 15px;
-  justify-content: center;
-  margin: 1px;
-  padding: 2px;
-  text-align: center;
-}
-.vanilla-datepicker > .title-nav > .month-navigate:first-child,
-.vanilla-datepicker > .title-nav > .year-navigate:first-child {
-  align-self: flex-start;
-}
-.vanilla-datepicker > .title-nav > .month-navigate:hover,
-.vanilla-datepicker > .title-nav > .year-navigate:hover {
-  border: solid 1px #b2b2b2;
-}
-.vanilla-datepicker > .week-header {
-  font-weight: bold;
-}
-.vanilla-datepicker > .week-header,
-.vanilla-datepicker > .week {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-.vanilla-datepicker > .week-header > div {
-  align-items: flex-start;
-  display: flex;
-  flex: 1;
-  justify-content: center;
-}
-.vanilla-datepicker > .week > div {
-  border: solid 1px #b2b2b2;
-  display: flex;
-  font-weight: bold;
-  align-items: flex-end;
-  cursor: pointer;
-  flex: 1;
-  justify-content: flex-end;
-  margin: 1px;
-  padding: 2px;
-}
-.vanilla-datepicker > .week > div.no-select {
-  cursor: auto;
-  background: #b2b2b2;
-  color: #666;
-}
-.vanilla-datepicker > .week > div.selected {
-  background-color: #415E82;
-  font-weight: bold;
-}
-.vanilla-datepicker > .week > div:not(.no-select):hover {
-  background: #666;
-}
-
-/********************/
-/*******************/
-@media screen and (max-width: 890px) {
-  #ledger-input {
-    width: 750px;
-  }
-  #ledger-input > input.amount {
-    width: 17%;
-  }
-
-  #balance-checker {
-    width: 750px;
-  }
-
-  #balance-checker .ledger {
-    width: 460px;
-    padding-left: 20px;
-    padding-right: 20px;
-  }
+  border:           solid whiteSmoke 5px;
 }
 #modal {
-  position: absolute;
-  width: 100%;
-  height: 250%;
-  top: 0;
-  left: 0;
-  background: rgba(0, 103, 138, 0.9);
-  color: white;
-  font-family: "Open Sans";
+  position:         fixed;
+  width:            100vw;
+  height:           100vh;
+  padding:          20vh 0;
+  top:              0;
+  left:             0;
+  background:       rgba(0, 103, 138, 0.9);
+  color:            #FFFFFF;
 }
 #modal a {
-  color: white;
-  display: block;
-  margin: auto;
-  width: 30px;
-  height: 30px;
-  line-height: 30px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 24px;
-  padding: 5px;
-  border: 2px solid white;
-  border-radius: 50%;
-  text-shadow: 0 0 5px #333;
-  box-shadow: 0 0 2px #333;
-  font-family: "Open Sans";
+  color:            white;
+  display:          block;
+  margin:           auto;
+  width:            100px;
+  height:           30px;
+  line-height:      16px;
+  text-align:       center;
+  text-decoration:  none;
+  font-size:        16px;
+  padding:          5px;
+  border:           2px solid white;
+  border-radius:    4px;
+  text-shadow:      0 0 5px #333;
+  box-shadow:       0 0 2px #333;
 }
 #modal a:hover {
-  color: #333;
-  border: 2px solid #333;
+  color:            #d0d0d0;
+  border:           2px solid #d0d0d0;
+}
+#modal a span {
+  padding-top:      25px;
 }
 #modal h1, #modal h2 {
-  text-shadow: 1px 1px 0px #000;
-  font-family: "Open Sans";
-  text-align: center;
-  margin: 20px auto;
-  font-size: 20px;
-}
-#modal h1 {
-  text-transform: uppercase;
+  text-shadow:      1px 1px 0px #000;
+  text-align:       center;
+  margin:           20px auto;
 }
 
-#modal_content {
-  position: absolute;
-  width: 550px;
-  left: 50%;
-  top: 20%;
-  margin: -130px -275px;
-  font-family: "Open Sans";
-}

@@ -1,0 +1,123 @@
+#balance-checker {
+  border-radius:        4px;
+  background-color:     #FFF;
+  box-shadow:           0px 0px 15px 10px rgba(255, 170, 35, 0.4);
+  width:                80vw;
+  height:               80vh;
+  overflow:             hidden;
+  margin:               auto;
+}
+#balance-checker .ledger {
+  padding:              55px 55px 0 55px;
+  display:              inline-block;
+  width:                520px;
+}
+#balance-checker .ledger .scrollme {
+  overflow-y:           scroll;
+  height:               530px;
+  width:                420px;
+  padding-right:        10px;
+}
+#balance-checker .ledger h2 {
+  font-size:            24px;
+  color:                #707584;
+  line-height:          45px;
+  width:                100%;
+  padding-bottom:       45px;
+  border-bottom:        1px solid #b2b2b2;
+}
+#balance-checker .ledger h2 span {
+  font-size:            36px;
+  color:                #444751;
+  font-weight:          700;
+  float:                right;
+  line-height:          23px;
+}
+#balance-checker .ledger h2 span sup {
+  font-size:            17px;
+  vertical-align:       super;
+}
+#balance-checker .ledger h2 span.negative-amt span {
+  color:                #AA0000;
+}
+#balance-checker .ledger .transactions {
+  margin-top:           40px;
+  width:                100%;
+}
+#balance-checker .ledger .transactions tr {
+  border-bottom:        45px solid transparent;
+}
+#balance-checker .ledger .transactions .icon div {
+  margin-bottom:        -15px;
+}
+#balance-checker .ledger .transactions .deduction .icon div,
+#balance-checker .ledger .transactions .addition .icon div {
+  width:                20px;
+  height:               20px;
+}
+#balance-checker .ledger .transactions .deduction .icon div {
+  background:           url("http://oi66.tinypic.com/11iobps.jpg") no-repeat -34px -5px;
+}
+#balance-checker .ledger .transactions .addition .icon div {
+  background:           url("http://oi66.tinypic.com/11iobps.jpg") no-repeat -4px -5px;
+}
+#balance-checker .ledger .transactions .name {
+  width:                75%;
+}
+#balance-checker .ledger .transactions .name .bill {
+  font-size:            17px;
+  color:                #333333;
+  margin-bottom:        10px;
+  font-weight:          600;
+}
+#balance-checker .ledger .transactions .name .invoice-date {
+  color:                #999999;
+}
+#balance-checker .ledger .transactions .amount {
+  width:                15%;
+  text-align:           right;
+  font-size:            17px;
+  font-weight:          600;
+}
+#balance-checker .ledger .transactions .amount sup {
+  vertical-align:       super;
+}
+#balance-checker .ledger .transactions .amount .remove-data {
+  text-transform:       uppercase;
+  color:                #AA0000;
+  float:                right;
+  margin-top:           12px;
+  opacity:              0;
+  transition-duration:  300ms;
+  cursor:               pointer;
+}
+#balance-checker .ledger .transactions .amount:hover .remove-data {
+  opacity:              1;
+}
+#balance-checker .ledger .transactions .deduction .amount {
+  color:                #8393ca;
+}
+#balance-checker .ledger .transactions .addition .amount {
+  color:                #66cc33;
+}
+#ledger-input {
+  background-color:     #48a0dc;
+  margin:               auto auto 1vh auto;
+  padding:              1vh 1vw;
+  height:               12vh;
+  width:                80vw;
+  color:                #FFF;
+}
+#ledger-input h2 {
+  font-size:            20px;
+}
+#ledger-input button {
+  width:                8.5%;
+  margin-left:          0.5%;
+  border-radius:        4px;
+  height:               4vh;
+  background-color:     #22608a;
+  color:                #FFF;
+  font-weight:          700;
+  border:               none;
+}

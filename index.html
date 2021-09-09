@@ -1,6 +1,5 @@
 <!doctype html>
 <html class="no-js" lang="en">
-
 <head>
   <meta charset="utf-8">
   <title>Product App</title>
@@ -9,10 +8,8 @@
 
 <body>
   <div id="app">
-    <stylesheets sheets="/css/main,/css/reset,/css/reset"></stylesheets>
+    <stylesheets sheets="reset,main,wallet,balance-checker,date-picker"></stylesheets>
 
-    <div id="credit-card-information">
-    </div>
     <account-record-input></account-record-input>
 
     <div id="balance-checker">
@@ -26,16 +23,9 @@
         </div>
       </div>
     </div>
-
-    <app-modal></app-modal>
-
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
   <script src="./js/main.js"></script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="./js/old.js"></script>
 </body>
-
 </html>

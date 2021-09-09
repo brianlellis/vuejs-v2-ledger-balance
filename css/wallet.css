@@ -1,98 +1,101 @@
-#balance-checker .wallet {
-  background-color: #f2f2f2;
-  width: 250px;
-  float: left;
-  height: 100%;
-  padding: 55px;
+.wallet {
+  background-color:     #f2f2f2;
+  width:                30%;
+  float:                left;
+  padding:              2vh 2%;
+  overflow-y:           scroll;
+  height:               100%;
 }
-#balance-checker .wallet .scrollme {
-  overflow-y: scroll;
-  height: 510px;
-  width: 275px;
+.wallet h2 {
+  color:                #707584;
+  margin-bottom:        5vh;
 }
-#balance-checker .wallet .scrollme.enabled {
-  height: 340px;
+.wallet .credit-card {
+  height:               115px;
+  width:                250px;
+  background-color:     #FFF;
+  padding:              15px;
+  border-radius:        4px;
+  margin-bottom:        30px;
+  box-shadow:           0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+  border:               2px solid #e1e1e1;
 }
-#balance-checker .wallet h2 {
-  font-size: 24px;
-  font-family: "Open Sans";
-  color: #707584;
-  text-align: left;
-  margin-bottom: 60px;
+.wallet .credit-card.selected {
+  border:               4px solid #8393CA;
 }
-#balance-checker .wallet .credit-card {
-  height: 150px;
-  width: 250px;
-  background-color: #FFF;
-  padding: 15px;
-  box-sizing: border-box;
-  border-radius: 4px;
-  margin-bottom: 30px;
-  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2);
-  border: 2px solid #e1e1e1;
+.wallet .credit-card p.cc-num {
+  color:                #666;
+  letter-spacing:       2px;
 }
-#balance-checker .wallet .credit-card.selected {
-  border: 4px solid #8393CA;
+.wallet .credit-card p.cc-exp {
+  color:                #b2b2b2;
 }
-#balance-checker .wallet .credit-card p {
-  font-family: "Open Sans";
-  display: block;
-  margin-bottom: 10px;
+.wallet .credit-card .cc-card-logo {
+  width:                40px;
+  height:               30px;
+  background:           blue;
+  margin-bottom:        10px;
 }
-#balance-checker .wallet .credit-card p.cc-num {
-  font-size: 17px;
-  font-family: "Open Sans";
-  color: #666;
-  letter-spacing: 2px;
+.wallet .credit-card sub {
+  vertical-align:       sub;
 }
-#balance-checker .wallet .credit-card p.cc-exp {
-  font-size: 17px;
-  font-family: "Open Sans";
-  color: #b2b2b2;
+.wallet .credit-card .remove-data {
+  text-transform:       uppercase;
+  color:                #AA0000;
+  float:                right;
+  margin-top:           -17px;
+  opacity:              0;
+  transition-duration:  300ms;
+  cursor:               pointer;
 }
-#balance-checker .wallet .credit-card #cc-card-logo {
-  width: 64px;
-  height: 44px;
-  background: url("http://oi66.tinypic.com/11iobps.jpg") no-repeat;
-  margin-bottom: 20px;
+.wallet .credit-card:hover .remove-data {
+  opacity:              1;
 }
-#balance-checker .wallet .credit-card #cc-card-logo.visa {
-  background-position: -69px -4px;
+#add-cc-form {
+  background:           #333333;
+  text-align:           center;
+  margin-bottom:        20px;
+  margin-top:           -20px;
+  padding:              10px 0;
+  overflow:             hidden;
+  transition:           500ms;
+  height:               155px;
+  width:                100%;
 }
-#balance-checker .wallet .credit-card #cc-card-logo.mc {
-  background-position: -209px -4px;
+#add-cc-form.hidden {
+  height:               0;
+  padding:              0;
 }
-#balance-checker .wallet .credit-card #cc-card-logo.amex {
-  background-position: -140px -4px;
+#add-cc-form button {
+  width:                90%;
+  border-radius:        4px;
+  height:               30px;
+  background-color:     #22608a;
+  color:                #FFF;
+  font-weight:          700;
+  line-height:          30px;
+  border:               none;
 }
-#balance-checker .wallet .credit-card sub {
-  vertical-align: sub;
+#add-cc-form select {
+  margin:               1vh 0 1.5vh 0;
+  width:                45%;
+  height:               35px;
+  line-height:          35px;
 }
-#balance-checker .wallet .credit-card .remove-data {
-  font-family: "Open Sans";
-  text-transform: uppercase;
-  font-size: 13px;
-  color: #AA0000;
-  float: right;
-  margin-top: -23px;
-  opacity: 0;
-  transition-duration: 300ms;
-  cursor: pointer;
+#add-cc-form input {
+  margin:               1vh 0;
+  width:                90%;
+  height:               30px;
+  line-height:          30px;
 }
-#balance-checker .wallet .credit-card:hover .remove-data {
-  opacity: 1;
+#add-credit-card {
+  float:                right;
+  font-size:            48px;
+  margin-top:           -20px;
+  color:                #c6cce2;
+  cursor:               pointer;
+  transition-duration:  500ms;
 }
-
-@media screen and (max-width: 890px) {
-  #balance-checker .wallet {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-  #balance-checker .wallet .scrollme {
-    width: 260px;
-  }
-  #balance-checker .wallet .credit-card p.cc-num,
-  #balance-checker .wallet .credit-card p.cc-exp {
-    font-size: 16px;
-  }
+#add-credit-card.enabled {
+  transform:            rotate(135deg);
 }
