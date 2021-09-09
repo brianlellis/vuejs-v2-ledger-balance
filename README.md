@@ -8,7 +8,7 @@
 * Some small CSS work. These were left as sheets on purpose utilizing a helper component for cleaner injection into
   the app.
 
-# What this is exhibition doesn't show?
+# What this exhibition doesn't show?
 * Vuex, this was on purpose as I prefer to keep showcase minimal in features shown in different environments
 * NPM, I prefer to keep environment needs minimal for showcases to avoid dependency conflicts
 
