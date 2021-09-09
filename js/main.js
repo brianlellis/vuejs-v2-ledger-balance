@@ -1,17 +1,20 @@
 Vue.component('account-record-input', {
   data: function () {
-    return {
-      type:           null,
-      amount:         null,
-      account:        null,
-      invoice:        null,
-      amount_full:    null,
-      amount_dollar:  null,
-      amount_cents:   null,
-      date:           null
-    }
+    return this.initData();
   },
   methods: {
+    initData: function () {
+      return {
+        type:           null,
+        amount:         null,
+        account:        null,
+        invoice:        null,
+        amount_full:    null,
+        amount_dollar:  null,
+        amount_cents:   null,
+        date:           null
+      }
+    },
     setData: function ( key , value ) {
       if ( 'amount' === key ) {
         const amount        = value.split(".");
@@ -32,14 +35,7 @@ Vue.component('account-record-input', {
         this.amount_cents
       );
 
-      this.amount         = null;
-      this.account        = null;
-      this.invoice        = null;
-      this.amount_full    = null;
-      this.amount_dollar  = null;
-      this.amount_cents   = null;
-        // Budgetizer.localData.check();
-        // Budgetizer.Ledger.ledgerTotal();
+      Object.assign( this.$data , this.initData() );
     }
   },
   template: `
@@ -429,7 +425,7 @@ Vue.component('stylesheets', {
 Vue.component('wallet', {
   data: function() {
     return {
-      months_abbr: [ 'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEPT','OCT','NOV','DEC' ],
+      months_abbr:      [ 'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEPT','OCT','NOV','DEC' ],
       current_year:     new Date().getFullYear(),
       selected_number:  null,
       selected_type:    null,
@@ -461,19 +457,20 @@ Vue.component('wallet', {
       else this.selected_number = null;
 
       // visa && electron
-      if (number.match(/^4/) !== null)
-        this.selected_type = "visa";
-      else if (number.match(/^(4026|417500|4508|4844|491(3|7))/) !== null)
-        this.selected_type = "visa";
+      if (
+        number.match(/^4/) !== null ||
+        number.match(/^(4026|417500|4508|4844|491(3|7))/) !== null
+      )
+        this.selected_type = 'visa';
       // Mastercard
       else if (number.match(/^5[1-5]/) !== null)
-        this.selected_type = "mc";
+        this.selected_type = 'mc';
       // Discover
       else if (number.match(/^(6011|622(12[6-9]|1[3-9][0-9]|[2-8][0-9]{2}|9[0-1][0-9]|92[0-5]|64[4-9])|65)/) !== null)
-        this.selected_type = "discover";
+        this.selected_type = 'discover';
       // Amex
       else if (number.match(/^(34|37)/) !== null)
-        this.selected_type = "amex";
+        this.selected_type = 'amex';
       // Card does not match criteria
       else if (number.length > 4)
         this.selected_type = null;
