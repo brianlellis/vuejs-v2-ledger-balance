@@ -26,15 +26,6 @@ Vue.component('account-record-input', {
       }
     },
     persistData: function () {
-      console.log(
-        this.amount,
-        this.account,
-        this.invoice,
-        this.amount_full,
-        this.amount_dollar,
-        this.amount_cents
-      );
-
       Object.assign( this.$data , this.initData() );
     }
   },
@@ -423,17 +414,30 @@ Vue.component('stylesheets', {
 });
 
 Vue.component('wallet', {
-  data: function() {
-    return {
-      months_abbr:      [ 'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEPT','OCT','NOV','DEC' ],
-      current_year:     new Date().getFullYear(),
-      selected_number:  null,
-      selected_type:    null,
-      selected_month:   1,
-      selected_year:    new Date().getFullYear()
+  props: {
+    hide_form: Boolean
+  },
+  watch: {
+    hide_form: function() {
+      console.log('what');
+      return true;
     }
   },
+  data: function() {
+    return this.initData();
+  },
   methods: {
+    initData: function () {
+      return {
+        months_abbr:      [ 'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEPT','OCT','NOV','DEC' ],
+        current_year:     new Date().getFullYear(),
+        selected_number:  null,
+        selected_type:    null,
+        selected_month:   1,
+        selected_year:    new Date().getFullYear(),
+        payment_method:   {}
+      }
+    },
     formToggleVisibility: function () {
       const ele_toggle  = document.getElementById('add-credit-card');
       const ele_form    = document.getElementById('add-cc-form');
@@ -482,18 +486,23 @@ Vue.component('wallet', {
       this.selected_year = Number( value );
     },
     persistCard: function () {
-      console.log(
-        `selected_number: ${this.selected_number}`,
-        `selected_type: ${this.selected_type}`,
-        `selected_month: ${this.selected_month}`,
-        `selected_year: ${this.selected_year}`
-      );
+      const data_obj = {
+        number:     this.selected_number,
+        last_4:     this.selected_number.slice( -4 ),
+        type:       this.selected_type,
+        exp_month:  this.selected_month,
+        exp_year:   this.selected_year
+      };
+
+      this.payment_method = data_obj;
+      this.initData();
+      this.hide_form = !this.hide_form;
     }
   },
   template: `
     <div class="wallet">
       <h2>My Wallet<span @click="formToggleVisibility()" id="add-credit-card">+</span></h2>
-      <div id="add-cc-form" class="hidden">
+      <div id="add-cc-form" :class="'hidden '+hide_form">
         <input
           @keyup="ccFormatter($event.target.value)"
           @change="getCardType($event.target.value)"
@@ -510,12 +519,32 @@ Vue.component('wallet', {
         <button @click="persistCard()">ADD</button>
       </div>
 
-      <credit-cards></credit-cards>
+      <credit-cards :payment_method="payment_method"></credit-cards>
     </div>
   `
 });
 
 Vue.component('credit-cards', {
+  props: {
+    payment_method: {
+      type:    Object,
+      default: function () {
+        return {};
+      }
+    }
+  },
+  watch: {
+    payment_method: function ( payment_method , old_prop ) {
+      // Simple check as lodash isn't being used
+      if ( payment_method.number === old_prop.number ) console.log( 'Payment Method Exists' );
+      else this.credit_cards.push( payment_method );
+    }
+  },
+  data: function() {
+    return {
+      credit_cards:   []
+    }
+  },
   methods: {
     ledgerTotal: function() {
       var txt,
@@ -533,29 +562,28 @@ Vue.component('credit-cards', {
       if (total.length === 1) total.push("00");
 
       ledgeHead.html("<span>$" + total[0] + ".<sup>" + total[1].substr(0, 2) + "</sup></span>");
-    }
-  },
-  data: function() {
-    return {
-      credit_cards: [
-        {
-          last_4:     2562,
-          exp_month:  12,
-          exp_year:   2021
-        }
-      ]
+    },
+    removeCard: function ( index ) {
+      this.credit_cards.splice( index , 1 );
     }
   },
   template: `
     <div>
-      <div v-for="credit_card in credit_cards" class="credit-card">
+      <div v-for="( credit_card , idx ) in credit_cards" class="credit-card">
         <div class="cc-card-logo"></div>
         <p class="cc-num"><sub>**** **** ****</sub> {{credit_card.last_4}}</p>
         <p class="cc-exp">Valid Thru: {{credit_card.exp_month}}/{{credit_card.exp_year}}</p>
-        <span class="remove-data">Remove</span>
+        <span class="remove-data" @click="removeCard( idx )">Remove</span>
       </div>
     </div>
   `
 });
 
-var app = new Vue({ el: '#app' })
+var app = new Vue({
+  el: '#app',
+  data: {
+    ledger_accounts:  {},
+    ledger_total:     0,
+    payment_methods:  {}
+  }
+})
