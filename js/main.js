@@ -12,7 +12,7 @@ Vue.component('account-record-input', {
         amount_full:    null,
         amount_dollar:  null,
         amount_cents:   null,
-        date:           null
+        invoice_record: null
       }
     },
     setData: function ( key , value ) {
@@ -26,373 +26,66 @@ Vue.component('account-record-input', {
       }
     },
     persistData: function () {
+      const data_obj = {
+        type:           this.type,
+        account:        this.account,
+        invoice:        this.invoice,
+        amount_full:    this.amount_full,
+        amount_dollar:  this.amount_dollar,
+        amount_cents:   this.amount_cents
+      };
+
+      this.$emit( 'add-invoice-record', data_obj );
       Object.assign( this.$data , this.initData() );
     }
   },
   template: `
     <div id="ledger-input">
-      <h2>Accounts Recievable Form</h2>
-      <select @change="setData( 'type' , $event.target.value )">
-        <option value="deduction">Deduction</option>
-        <option value="addition">Addition</option>
-      </select>
+      <h2>Accounts | Takes (-) and (+)</h2>
       <input @change="setData( 'amount' , $event.target.value )"  :value="amount_full" placeholder="Amount" />
       <input @change="setData( 'account' , $event.target.value )"  :value="account" placeholder="Company" />
       <input @change="setData( 'invoice' , $event.target.value )"  :value="invoice" placeholder="Invoice #" />
-      <date-picker></date-picker>
       <button @click="persistData()">ADD</button>
     </div>
     `
 });
 
-Vue.component('date-picker', {
-  data: function () {
-    return {
-      firstDayOfWeek: 0,
-      months:         {
-        short:          ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-        long:           [
-                          'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September',
-                          'October', 'November', 'December'
-                        ]
-      },
-      navigateYear:   true,
-      outputFormat:   '%Y-%m-%d',
-      weekdays:       {
-        short:          ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-        long:           ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-      }
-    }
-  },
-  methods: {
-    init: function( query, options ) {
-      if (!(this instanceof Budgetizer.datepicker)) return new Budgetizer.datepicker( query, options );
-
-      currentDatepicker = self = this;
-      self.options = extend({}, Budgetizer.datepicker.defaults, options);
-      self.query = query;
-      self.__init__();
-    },
-    dateFormatter: function () {
-      var dates = $j("#ledger-input .datepicker").val().split("-"),
-        month = {
-          "01" :"January", "02" :"February",
-          "03" :"March", "04" :"April",
-          "05" :"May", "06" :"June",
-          "07" :"July", "08" :"August",
-          "09" :"September", "10" :"October",
-          "11" :"November", "12" :"December"
-        };
-      return dates[2]+" "+month[dates[1]]+", "+dates[0];
-    },
-    extend: function(out) {
-      out = out || {};
-      for (var i = 1; i < arguments.length; i++) {
-        if (!arguments[i]) continue;
-
-        for (var key in arguments[i]) {
-          if (arguments[i].hasOwnProperty(key)) out[key] = arguments[i][key];
-        }
-      }
-
-      return out;
-    },
-    matchesReferers: function( elm ){
-      this.referers = document.querySelectorAll( this.query );
-      for (var i=0; i< this.referers.length; i++) {
-        if (elm === this.referers[i]) return true;
-      }
-      return false;
-    },
-
-    close: function(){
-      delete this.current;
-      delete this.target;
-      if (this.picker) this.picker.remove();
-    },
-
-    show: function( target ) {
-      this.target = typeof target != typeof undefined ? target : this.target;
-      if (target || typeof this.current == typeof undefined) {
-        var current = new Date();
-        if (target) this.selected = null;
-        if (target && target.value) {
-          var ts = Date.parse( target.value.toLowerCase() );
-          current = new Date( ts );
-          this.selected = {
-            year:   current.getFullYear(),
-            month:  current.getMonth(),
-            day:    current.getDate()
-          };
-        }
-        this.current = {
-          year:     current.getFullYear(),
-          month:    current.getMonth()
-        };
-      }
-      this.cleanPicker();
-      this.drawPicker();
-    },
-    cleanPicker: function(){
-      var picker = document.querySelector('.vanilla-datepicker');
-      if (picker) picker.remove();
-    },
-
-    drawPicker: function(){
-      var position = {
-        x:this.target.offsetLeft,
-        y:this.target.offsetTop + this.target.offsetHeight
-      };
-      this.picker = document.createElement('div');
-      this.picker.classList.add('vanilla-datepicker');
-      this.picker.style.left = position.x + 'px';
-      this.picker.style.top = position.y + 'px';
-      this.picker.appendChild( this.drawNavigation() );
-      this.picker.appendChild( this.drawWeekHeader() );
-      var weeks = this.getWeeks();
-      for (var i=0; i<weeks.length; i++) {
-        this.picker.appendChild( weeks[i] );
-      }
-
-      this.target.parentNode.insertBefore( this.picker, this.target.nextSibling );
-    },
-
-    drawNavigation: function(){
-      var nav = document.createElement('div');
-      nav.classList.add('title-nav');
-
-      if (this.options.navigateYear) {
-        previousYear = document.createElement('div');
-        previousYear.classList.add('year-navigate');
-        previousYear.classList.add('previous');
-        previousYear.innerHTML = '<<';
-
-        nextYear = document.createElement('div');
-        nextYear.classList.add('year-navigate');
-        nextYear.classList.add('next');
-        nextYear.innerHTML = '>>';
-      }
-      previousMonth = document.createElement('div');
-      previousMonth.classList.add('month-navigate');
-      previousMonth.classList.add('previous');
-      previousMonth.innerHTML = '<';
-
-      currentMonth = document.createTextNode(
-        this.options.months.long[this.current.month] + ' ' + this.current.year
-      );
-
-      nextMonth = document.createElement('div');
-      nextMonth.classList.add('month-navigate');
-      nextMonth.classList.add('next');
-      nextMonth.innerHTML = '>';
-      //nextMonth.addEventListener('click', this.getNextMonth, false);
-
-      if (this.options.navigateYear) nav.appendChild( previousYear );
-      nav.appendChild( previousMonth );
-      nav.appendChild( currentMonth );
-      nav.appendChild( nextMonth );
-      if (this.options.navigateYear) nav.appendChild( nextYear );
-
-      return nav;
-    },
-
-    getPreviousYear: function() {
-      var current = new Date( this.current.year -1, this.current.month);
-      this.current = {
-        year: current.getFullYear(),
-        month: current.getMonth()
-      };
-      this.show();
-    },
-
-    getNextYear: function() {
-      var current = new Date( this.current.year + 1, this.current.month);
-      this.current = {
-        year: current.getFullYear(),
-        month: current.getMonth()
-      };
-      this.show();
-    },
-
-    getPreviousMonth: function() {
-      var current = new Date( this.current.year, this.current.month - 1);
-      this.current = {
-        year: current.getFullYear(),
-        month: current.getMonth()
-      };
-      this.show();
-    },
-
-    getNextMonth: function() {
-      var current = new Date( this.current.year, this.current.month + 1);
-      this.current = {
-        year: current.getFullYear(),
-        month: current.getMonth()
-      };
-      this.show();
-    },
-
-    drawWeekHeader: function(){
-      var weekdays =  this.options.weekdays.short.slice(this.options.firstDayOfWeek)
-          .concat(this.options.weekdays.short.slice(0, this.options.firstDayOfWeek)),
-        weekHeader = document.createElement('div');
-
-      weekHeader.classList.add('week-header');
-      for (var i=0; i<7; i++) {
-        var dayOfWeek = document.createElement('div');
-        dayOfWeek.innerHTML = weekdays[i];
-        weekHeader.appendChild( dayOfWeek );
-      }
-      return weekHeader;
-    },
-
-    getWeeks: function(){
-      var i;
-      // Get week days according to options
-      var weekdays =  this.options.weekdays.short.slice(this.options.firstDayOfWeek)
-                        .concat(this.options.weekdays.short.slice(0, this.options.firstDayOfWeek)),
-        // Get first day of month and update acconding to options
-        firstOfMonth        = new Date(this.current.year, this.current.month, 1).getDay(),
-        daysInPreviousMonth = new Date(this.current.year, this.current.month, 0).getDate(),
-        daysInMonth         = new Date(this.current.year, this.current.month+1, 0).getDate(),
-        days=[], weeks=[], day;
-
-      firstOfMonth = firstOfMonth < this.options.firstDayOfWeek ? 7+(firstOfMonth - this.options.firstDayOfWeek ) : firstOfMonth - this.options.firstDayOfWeek;
-
-      // Define last days of previous month if current month does not start on `firstOfMonth`
-      for (i=firstOfMonth-1; i>=0; i--) {
-        day = document.createElement('div');
-        day.classList.add( 'no-select' );
-        day.innerHTML = daysInPreviousMonth - i;
-        days.push( day );
-      }
-      // Define days in current month
-      for (i=0; i<daysInMonth; i++) {
-        if (i && (firstOfMonth+i)%7 === 0) {
-          weeks.push( this.addWeek( days ) );
-          days = [];
-        }
-        day = document.createElement('div');
-        day.classList.add('day');
-        if (this.selected && this.selected.year == this.current.year && this.selected.month == this.current.month && this.selected.day == i+1) {
-          day.classList.add('selected');
-        }
-        day.innerHTML = i+1;
-        days.push( day );
-      }
-      // Define days of next month if last week is not full
-      if (days.length) {
-        var len = days.length;
-        for (i=0; i<7-len; i++) {
-          day = document.createElement('div');
-          day.classList.add( 'no-select' );
-          day.innerHTML = i+1;
-          days.push( day );
-        }
-        weeks.push( this.addWeek( days ) );
-      }
-      return weeks;
-    },
-
-    addWeek: function( days ) {
-      var week = document.createElement('div');
-      week.classList.add('week');
-      for (var i=0; i<days.length; i++) {
-        week.appendChild( days[i] );
-      }
-      return week;
-    },
-
-    setDate: function( day ) {
-      var dayOfWeek = new Date(this.current.year, this.current.month, day).getDay(),
-        date = this.options.outputFormat
-          .replace('%a', this.options.weekdays.short[dayOfWeek] )
-          .replace('%A', this.options.weekdays.long[dayOfWeek] )
-          .replace('%d', ('0' + day).slice(-2) )
-          .replace('%e', day )
-          .replace('%b', this.options.months.short[this.current.month] )
-          .replace('%B', this.options.months.long[this.current.month] )
-          .replace('%m', ('0' + (this.current.month+1)).slice(-2) )
-          .replace('%w', dayOfWeek )
-          .replace('%Y', this.current.year );
-
-      this.target.value = date;
-    },
-
-    bindCalendar: function(event) {
-      var target = event.target;
-      if (target.className == 'month-navigate next') {
-        this.getNextMonth();
-      } else if (target.className == 'month-navigate previous') {
-        this.getPreviousMonth();
-      } else if (target.className == 'year-navigate next') {
-        this.getNextYear();
-      } else if (target.className == 'year-navigate previous') {
-        this.getPreviousYear();
-      } else if (target.className == 'day') {
-        this.setDate( target.innerHTML );
-        this.close();
-      } else {
-        while (target && !this.matchesReferers( target ) && target.className != 'vanilla-datepicker') {
-          target = target.parentNode;
-        }
-        if (target && this.matchesReferers( target )) this.show(target);
-        if (!target) this.close();
-      }
-    }
-  },
-  template: `
-    <input type="text" class="datepicker" placeholder="Select a Date" />
-  `
-});
-
 Vue.component('account-record-display', {
-  data: function() {
-    return {
-      records: [
-        {
-          type:           'deduction',
-          account:        'Apple iPhone 6, 6g GB',
-          invoice:        'Electronics #343223',
-          date:           '12 July, 2015',
-          amount_dollar:   '650',
-          amount_cents:    '00'
-        }
-      ]
-    }
+  props: {
+    record:     Object,
+    record_idx: Number
   },
   methods: {
-    remove: function () {
-      $j(document).on("click", ".transactions .remove-data", function () {
-        $j(this).closest("tr").remove();
-        Budgetizer.Ledger.ledgerTotal();
-        Budgetizer.localData.check();
-      });
-      $j(document).on("click", ".wallet .remove-data", function () {
-        $j(this).closest(".credit-card").remove();
-        Budgetizer.Ledger.ledgerTotal();
-        Budgetizer.localData.check();
-      });
+    remove: function ( record , record_idx ) {
+      this.$emit( 'remove-invoice-record' , { record:record , record_idx:record_idx } );
     }
   },
   template: `
-    <tr v-for="record in records" :class="record.type">
+    <tr :class="record.type">
       <td class="icon"><div></div></td>
       <td class="name">
         <p class="bill">{{record.account}}<p>
-        <p class="invoice-date">{{record.invoice}}  - {{record.date}}</p>
       </td>
-      <td class="amount">
-        \${{record.amount_dollar}}<sup>{{record.amount_cents}}</sup><span class="remove-data">Remove</span>
+      <td class="amount addition" v-if="record.amount_dollar > 0">
+        \${{record.amount_dollar}}<sup>{{record.amount_cents}}</sup>
+        <span class="remove-data" @click="remove( record, record_idx )">Remove</span>
+      </td>
+      <td class="amount deduction" v-else>
+        (\${{Math.abs(record.amount_dollar)}}<sup>{{record.amount_cents}}</sup>)
+        <span class="remove-data" @click="remove( record, record_idx )">Remove</span>
       </td>
     </tr>
   `
 });
 
 Vue.component('account-header', {
+  props: {
+    ledger_total_dollar:  String,
+    ledger_total_cents:   String
+  },
   template: `
     <h2>Current Balance
-      <span>$729.<sup>00</sup></span>
+      <span>\${{ledger_total_dollar}}.<sup>{{ledger_total_cents}}</sup></span>
     </h2>
   `
 });
@@ -416,12 +109,6 @@ Vue.component('stylesheets', {
 Vue.component('wallet', {
   props: {
     hide_form: Boolean
-  },
-  watch: {
-    hide_form: function() {
-      console.log('what');
-      return true;
-    }
   },
   data: function() {
     return this.initData();
@@ -582,8 +269,38 @@ Vue.component('credit-cards', {
 var app = new Vue({
   el: '#app',
   data: {
-    ledger_accounts:  {},
-    ledger_total:     0,
-    payment_methods:  {}
+    ledger_accounts:      {},
+    ledger_total:         0,
+    ledger_total_dollar:  0,
+    ledger_total_cents:   0,
+    prev_invoice:         {},
+    invoice_records:      []
+  },
+  methods: {
+    addInvoiceRecord: function ( invoice_record ) {
+      if ( invoice_record.invoice === this.prev_invoice.invoice ) {
+        console.log( 'Invoice Exists' );
+      } else {
+        this.ledger_total  += Number( invoice_record.amount_full );
+        this.prev_invoice   = invoice_record;
+        this.invoice_records.push( invoice_record );
+        this.calcLedgerTotal();
+      }
+    },
+    calcLedgerTotal: function () {
+      let total = 0;
+
+      this.invoice_records.forEach(value => { total  += Number( value.amount_full ); });
+      const amount              = total.toString().split(".");
+      this.ledger_total         = total;
+      this.ledger_total_dollar  = amount[ 0 ];
+      this.ledger_total_cents   = amount[ 1 ];
+    },
+    removeInvoiceRecord: function ( obj ) {
+      console.log( obj );
+      if ( obj.record.invoice === this.prev_invoice.invoice ) this.prev_invoice.invoice = {};
+      this.invoice_records.splice( obj.record_index , 1 );
+      this.calcLedgerTotal();
+    }
   }
 })

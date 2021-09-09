@@ -8,17 +8,23 @@
 
 <body>
   <div id="app">
-    <stylesheets sheets="reset,main,wallet,balance-checker,date-picker"></stylesheets>
+    <stylesheets sheets="reset,main,wallet,balance-checker"></stylesheets>
 
-    <account-record-input></account-record-input>
+    <account-record-input @add-invoice-record="addInvoiceRecord( $event )"></account-record-input>
 
     <div id="balance-checker">
       <wallet></wallet>
       <div class="ledger">
-        <account-header></account-header>
+        <account-header :ledger_total_dollar="ledger_total_dollar" :ledger_total_cents="ledger_total_cents"></account-header>
         <div class="scrollme">
           <table class="transactions"><tbody>
-            <tr is="account-record-display"></tr>
+            <tr
+              v-for="( record, idx ) in invoice_records"
+              is="account-record-display"
+              :record="record"
+              :record_idx="idx"
+              @remove-invoice-record="removeInvoiceRecord( $event )"
+            ></tr>
           </tbody></table>
         </div>
       </div>

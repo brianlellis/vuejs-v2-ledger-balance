@@ -8,22 +8,22 @@
   margin:               auto;
 }
 #balance-checker .ledger {
-  padding:              55px 55px 0 55px;
+  padding:              5vh;
   display:              inline-block;
-  width:                520px;
+  width:                70%;
+  overflow-y:           scroll;
+  height:               100%;
 }
 #balance-checker .ledger .scrollme {
   overflow-y:           scroll;
-  height:               530px;
-  width:                420px;
+  height:               80%;
   padding-right:        10px;
 }
 #balance-checker .ledger h2 {
   font-size:            24px;
   color:                #707584;
-  line-height:          45px;
   width:                100%;
-  padding-bottom:       45px;
+  padding-bottom:       3vh;
   border-bottom:        1px solid #b2b2b2;
 }
 #balance-checker .ledger h2 span {
@@ -94,10 +94,10 @@
 #balance-checker .ledger .transactions .amount:hover .remove-data {
   opacity:              1;
 }
-#balance-checker .ledger .transactions .deduction .amount {
+#balance-checker .ledger .transactions .amount.deduction {
   color:                #8393ca;
 }
-#balance-checker .ledger .transactions .addition .amount {
+#balance-checker .ledger .transactions .amount.addition {
   color:                #66cc33;
 }
 #ledger-input {
